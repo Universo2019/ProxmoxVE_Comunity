@@ -3,7 +3,7 @@
 # Copyright (c) 2021-2025 tteck
 # Author: tteck (tteckster)
 # License: MIT
-# https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
+# https://github.com/community-scripts/ProxmoxVE/raw/nodejs_22/LICENSE
 
 source /dev/stdin <<< "$FUNCTIONS_FILE_PATH"
 color
@@ -32,7 +32,7 @@ if ! grep -q -m1 'avx[^ ]*' /proc/cpuinfo; then
   msg_ok "No AVX Support Detected"
   msg_info "Installing MongoDB 4.4"
   if ! dpkg -l | grep -q "libssl1.1"; then
-    wget -q http://security.debian.org/debian-security/pool/updates/main/o/openssl/libssl1.1_1.1.1n-0+deb10u6_amd64.deb
+    wget -q http://security.debian.org/debian-security/pool/updates/nodejs_22/o/openssl/libssl1.1_1.1.1n-0+deb10u6_amd64.deb
     $STD dpkg -i libssl1.1_1.1.1n-0+deb10u6_amd64.deb
   fi
   wget -qO- https://www.mongodb.org/static/pgp/server-4.4.asc | gpg --dearmor > /usr/share/keyrings/mongodb-server-4.4.gpg

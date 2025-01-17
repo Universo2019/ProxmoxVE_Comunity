@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-source <(curl -s https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+source <(curl -s https://raw.githubusercontent.com/community-scripts/ProxmoxVE/nodejs_22/misc/build.func)
 # Copyright (c) 2021-2025 tteck
 # Author: tteck (tteckster)
-# License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
+# License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/nodejs_22/LICENSE
 # Source: https://sonarr.tv/
 
 # App Default Values
@@ -34,7 +34,7 @@ function update_script() {
     fi
     msg_info "Updating $APP v4"
     systemctl stop sonarr.service
-    wget -q -O SonarrV4.tar.gz 'https://services.sonarr.tv/v1/download/main/latest?version=4&os=linux&arch=x64'
+    wget -q -O SonarrV4.tar.gz 'https://services.sonarr.tv/v1/download/nodejs_22/latest?version=4&os=linux&arch=x64'
     tar -xzf SonarrV4.tar.gz
     rm -rf /opt/Sonarr
     mv Sonarr /opt

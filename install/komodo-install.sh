@@ -2,7 +2,7 @@
 
 # Copyright (c) 2021-2025 community-scripts ORG
 # Author: MickLesk
-# License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
+# License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/nodejs_22/LICENSE
 # Source: https://komo.do/
 
 source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
@@ -65,11 +65,11 @@ case $DB_CHOICE in
 esac
 mkdir -p /opt/komodo
 cd /opt/komodo
-wget -q "https://raw.githubusercontent.com/mbecker20/komodo/main/compose/$DB_COMPOSE_FILE"
+wget -q "https://raw.githubusercontent.com/mbecker20/komodo/nodejs_22/compose/$DB_COMPOSE_FILE"
 
 
 msg_info "Setup Komodo Environment"
-wget -q -O /opt/komodo/compose.env https://raw.githubusercontent.com/mbecker20/komodo/main/compose/compose.env
+wget -q -O /opt/komodo/compose.env https://raw.githubusercontent.com/mbecker20/komodo/nodejs_22/compose/compose.env
 DB_PASSWORD=$(openssl rand -base64 16 | tr -d '/+=')
 PASSKEY=$(openssl rand -base64 24 | tr -d '/+=')
 WEBHOOK_SECRET=$(openssl rand -base64 24 | tr -d '/+=')

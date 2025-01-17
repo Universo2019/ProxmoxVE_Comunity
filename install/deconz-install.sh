@@ -3,7 +3,7 @@
 # Copyright (c) 2021-2025 tteck
 # Author: tteck (tteckster)
 # License: MIT
-# https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
+# https://github.com/community-scripts/ProxmoxVE/raw/nodejs_22/LICENSE
 
 source /dev/stdin <<< "$FUNCTIONS_FILE_PATH"
 color
@@ -26,8 +26,8 @@ echo "deb [arch=amd64] http://phoscon.de/apt/deconz $VERSION main" >/etc/apt/sou
 msg_ok "Setup Phoscon Repository"
 
 msg_info "Installing deConz"
-libssl=$(curl -fsSL "http://security.ubuntu.com/ubuntu/pool/main/o/openssl/" | grep -o 'libssl1\.1_1\.1\.1f-1ubuntu2\.2[^"]*amd64\.deb' | head -n1)
-wget -qL http://security.ubuntu.com/ubuntu/pool/main/o/openssl/$libssl
+libssl=$(curl -fsSL "http://security.ubuntu.com/ubuntu/pool/nodejs_22/o/openssl/" | grep -o 'libssl1\.1_1\.1\.1f-1ubuntu2\.2[^"]*amd64\.deb' | head -n1)
+wget -qL http://security.ubuntu.com/ubuntu/pool/nodejs_22/o/openssl/$libssl
 $STD dpkg -i $libssl
 $STD apt-get update
 $STD apt-get install -y deconz

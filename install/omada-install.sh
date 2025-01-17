@@ -3,7 +3,7 @@
 # Copyright (c) 2021-2025 tteck
 # Author: tteck (tteckster)
 # License: MIT
-# https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
+# https://github.com/community-scripts/ProxmoxVE/raw/nodejs_22/LICENSE
 
 source /dev/stdin <<< "$FUNCTIONS_FILE_PATH"
 color
@@ -31,8 +31,8 @@ $STD apt-get -y install zulu8-jdk
 msg_ok "Installed Azul Zulu"
 
 msg_info "Installing MongoDB"
-libssl=$(curl -fsSL "http://security.ubuntu.com/ubuntu/pool/main/o/openssl/" | grep -o 'libssl1\.1_1\.1\.1f-1ubuntu2\.2[^"]*amd64\.deb' | head -n1)
-wget -qL http://security.ubuntu.com/ubuntu/pool/main/o/openssl/$libssl
+libssl=$(curl -fsSL "http://security.ubuntu.com/ubuntu/pool/nodejs_22/o/openssl/" | grep -o 'libssl1\.1_1\.1\.1f-1ubuntu2\.2[^"]*amd64\.deb' | head -n1)
+wget -qL http://security.ubuntu.com/ubuntu/pool/nodejs_22/o/openssl/$libssl
 $STD dpkg -i $libssl
 wget -qL https://repo.mongodb.org/apt/ubuntu/dists/bionic/mongodb-org/3.6/multiverse/binary-amd64/mongodb-org-server_3.6.23_amd64.deb
 $STD dpkg -i mongodb-org-server_3.6.23_amd64.deb

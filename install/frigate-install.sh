@@ -4,7 +4,7 @@
 # Author: tteck (tteckster)
 # Co-Author: remz1337
 # License: MIT
-# https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
+# https://github.com/community-scripts/ProxmoxVE/raw/nodejs_22/LICENSE
 
 source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
 color
@@ -58,17 +58,17 @@ wget -q https://github.com/blakeblackshear/frigate/archive/refs/tags/${RELEASE}.
 tar -xzf frigate.tar.gz -C /opt/frigate --strip-components 1
 rm -rf frigate.tar.gz
 cd /opt/frigate
-$STD pip3 wheel --wheel-dir=/wheels -r /opt/frigate/docker/main/requirements-wheels.txt
-cp -a /opt/frigate/docker/main/rootfs/. /
+$STD pip3 wheel --wheel-dir=/wheels -r /opt/frigate/docker/nodejs_22/requirements-wheels.txt
+cp -a /opt/frigate/docker/nodejs_22/rootfs/. /
 export TARGETARCH="amd64"
 echo 'libc6 libraries/restart-without-asking boolean true' | debconf-set-selections
-$STD /opt/frigate/docker/main/install_deps.sh
+$STD /opt/frigate/docker/nodejs_22/install_deps.sh
 $STD apt update
 $STD ln -svf /usr/lib/btbn-ffmpeg/bin/ffmpeg /usr/local/bin/ffmpeg
 $STD ln -svf /usr/lib/btbn-ffmpeg/bin/ffprobe /usr/local/bin/ffprobe
 $STD pip3 install -U /wheels/*.whl
 ldconfig
-$STD pip3 install -r /opt/frigate/docker/main/requirements-dev.txt
+$STD pip3 install -r /opt/frigate/docker/nodejs_22/requirements-dev.txt
 $STD /opt/frigate/.devcontainer/initialize.sh
 $STD make version
 cd /opt/frigate/web
@@ -76,7 +76,7 @@ $STD npm install
 $STD npm run build
 cp -r /opt/frigate/web/dist/* /opt/frigate/web/
 cp -r /opt/frigate/config/. /config
-sed -i '/^s6-svc -O \.$/s/^/#/' /opt/frigate/docker/main/rootfs/etc/s6-overlay/s6-rc.d/frigate/run
+sed -i '/^s6-svc -O \.$/s/^/#/' /opt/frigate/docker/nodejs_22/rootfs/etc/s6-overlay/s6-rc.d/frigate/run
 cat <<EOF >/config/config.yml
 mqtt:
   enabled: false
@@ -107,7 +107,7 @@ msg_ok "Installed Frigate $RELEASE"
 if grep -q -o -m1 -E 'avx[^ ]*' /proc/cpuinfo; then
   msg_ok "AVX Support Detected"
   msg_info "Installing Openvino Object Detection Model (Resilience)"
-  $STD pip install -r /opt/frigate/docker/main/requirements-ov.txt
+  $STD pip install -r /opt/frigate/docker/nodejs_22/requirements-ov.txt
   cd /opt/frigate/models
   export ENABLE_ANALYTICS=NO
   $STD /usr/local/bin/omz_downloader --name ssdlite_mobilenet_v2 --num_attempts 2
@@ -169,14 +169,14 @@ wget -qO /media/frigate/person-bicycle-car-detection.mp4 https://github.com/inte
 msg_ok "Installed Coral Object Detection Model"
 
 msg_info "Building Nginx with Custom Modules"
-$STD /opt/frigate/docker/main/build_nginx.sh
-sed -e '/s6-notifyoncheck/ s/^#*/#/' -i /opt/frigate/docker/main/rootfs/etc/s6-overlay/s6-rc.d/nginx/run
+$STD /opt/frigate/docker/nodejs_22/build_nginx.sh
+sed -e '/s6-notifyoncheck/ s/^#*/#/' -i /opt/frigate/docker/nodejs_22/rootfs/etc/s6-overlay/s6-rc.d/nginx/run
 ln -sf /usr/local/nginx/sbin/nginx  /usr/local/bin/nginx
 msg_ok "Built Nginx"
 
 msg_info "Installing Tempio"
-sed -i 's|/rootfs/usr/local|/usr/local|g' /opt/frigate/docker/main/install_tempio.sh
-$STD /opt/frigate/docker/main/install_tempio.sh
+sed -i 's|/rootfs/usr/local|/usr/local|g' /opt/frigate/docker/nodejs_22/install_tempio.sh
+$STD /opt/frigate/docker/nodejs_22/install_tempio.sh
 ln -sf /usr/local/tempio/bin/tempio /usr/local/bin/tempio
 msg_ok "Installed Tempio"
 
@@ -207,7 +207,7 @@ Restart=always
 RestartSec=1
 User=root
 ExecStartPre=+rm /dev/shm/logs/go2rtc/current
-ExecStart=/bin/bash -c "bash /opt/frigate/docker/main/rootfs/etc/s6-overlay/s6-rc.d/go2rtc/run 2> >(/usr/bin/ts '%%Y-%%m-%%d %%H:%%M:%%.S ' >&2) | /usr/bin/ts '%%Y-%%m-%%d %%H:%%M:%%.S '"
+ExecStart=/bin/bash -c "bash /opt/frigate/docker/nodejs_22/rootfs/etc/s6-overlay/s6-rc.d/go2rtc/run 2> >(/usr/bin/ts '%%Y-%%m-%%d %%H:%%M:%%.S ' >&2) | /usr/bin/ts '%%Y-%%m-%%d %%H:%%M:%%.S '"
 StandardOutput=file:/dev/shm/logs/go2rtc/current
 StandardError=file:/dev/shm/logs/go2rtc/current
 
@@ -230,7 +230,7 @@ RestartSec=1
 User=root
 # Environment=PLUS_API_KEY=
 ExecStartPre=+rm /dev/shm/logs/frigate/current
-ExecStart=/bin/bash -c "bash /opt/frigate/docker/main/rootfs/etc/s6-overlay/s6-rc.d/frigate/run 2> >(/usr/bin/ts '%%Y-%%m-%%d %%H:%%M:%%.S ' >&2) | /usr/bin/ts '%%Y-%%m-%%d %%H:%%M:%%.S '"
+ExecStart=/bin/bash -c "bash /opt/frigate/docker/nodejs_22/rootfs/etc/s6-overlay/s6-rc.d/frigate/run 2> >(/usr/bin/ts '%%Y-%%m-%%d %%H:%%M:%%.S ' >&2) | /usr/bin/ts '%%Y-%%m-%%d %%H:%%M:%%.S '"
 StandardOutput=file:/dev/shm/logs/frigate/current
 StandardError=file:/dev/shm/logs/frigate/current
 
@@ -252,7 +252,7 @@ Restart=always
 RestartSec=1
 User=root
 ExecStartPre=+rm /dev/shm/logs/nginx/current
-ExecStart=/bin/bash -c "bash /opt/frigate/docker/main/rootfs/etc/s6-overlay/s6-rc.d/nginx/run 2> >(/usr/bin/ts '%%Y-%%m-%%d %%H:%%M:%%.S ' >&2) | /usr/bin/ts '%%Y-%%m-%%d %%H:%%M:%%.S '"
+ExecStart=/bin/bash -c "bash /opt/frigate/docker/nodejs_22/rootfs/etc/s6-overlay/s6-rc.d/nginx/run 2> >(/usr/bin/ts '%%Y-%%m-%%d %%H:%%M:%%.S ' >&2) | /usr/bin/ts '%%Y-%%m-%%d %%H:%%M:%%.S '"
 StandardOutput=file:/dev/shm/logs/nginx/current
 StandardError=file:/dev/shm/logs/nginx/current
 

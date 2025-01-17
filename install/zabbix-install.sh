@@ -3,7 +3,7 @@
 # Copyright (c) 2021-2025 tteck
 # Author: tteck (tteckster)
 # License: MIT
-# https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
+# https://github.com/community-scripts/ProxmoxVE/raw/nodejs_22/LICENSE
 
 source /dev/stdin <<< "$FUNCTIONS_FILE_PATH"
 color
@@ -22,7 +22,7 @@ msg_ok "Installed Dependencies"
 
 msg_info "Installing Zabbix"
 cd /tmp
-wget -q https://repo.zabbix.com/zabbix/7.2/release/debian/pool/main/z/zabbix-release/zabbix-release_latest+debian12_all.deb
+wget -q https://repo.zabbix.com/zabbix/7.2/release/debian/pool/nodejs_22/z/zabbix-release/zabbix-release_latest+debian12_all.deb
 $STD dpkg -i /tmp/zabbix-release_latest+debian12_all.deb
 $STD apt-get update
 $STD apt-get install -y zabbix-server-pgsql zabbix-frontend-php php8.2-pgsql zabbix-apache-conf zabbix-sql-scripts 

@@ -3,7 +3,7 @@
 # Copyright (c) 2021-2025 community-scripts ORG
 # Author: MickLesk
 # License: MIT
-# https://github.com/tteck/Proxmox/raw/main/LICENSE
+# https://github.com/tteck/Proxmox/raw/nodejs_22/LICENSE
 
 source /dev/stdin <<< "$FUNCTIONS_FILE_PATH"
 color

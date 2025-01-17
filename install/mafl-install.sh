@@ -3,7 +3,7 @@
 # Copyright (c) 2021-2025 tteck
 # Author: tteck (tteckster)
 # License: MIT
-# https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
+# https://github.com/community-scripts/ProxmoxVE/raw/nodejs_22/LICENSE
 
 source /dev/stdin <<< "$FUNCTIONS_FILE_PATH"
 color
@@ -42,7 +42,7 @@ msg_info "Installing Mafl v${RELEASE}"
 wget -q https://github.com/hywax/mafl/archive/refs/tags/v${RELEASE}.tar.gz
 tar -xzf v${RELEASE}.tar.gz
 mkdir -p /opt/mafl/data
-wget -q -O /opt/mafl/data/config.yml https://raw.githubusercontent.com/hywax/mafl/main/.example/config.yml
+wget -q -O /opt/mafl/data/config.yml https://raw.githubusercontent.com/hywax/mafl/nodejs_22/.example/config.yml
 mv mafl-${RELEASE}/* /opt/mafl
 rm -rf mafl-${RELEASE}
 cd /opt/mafl

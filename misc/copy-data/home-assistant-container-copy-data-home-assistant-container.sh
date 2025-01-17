@@ -3,7 +3,7 @@
 # Copyright (c) 2021-2025 tteck
 # Author: tteck (tteckster)
 # License: MIT
-# https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
+# https://github.com/community-scripts/ProxmoxVE/raw/nodejs_22/LICENSE
 
 # Use to copy all data from one Home Assistant LXC to another
 # run from the Proxmox Shell
@@ -125,4 +125,4 @@ info "Successfully Transferred Data."
 
 # Use to copy all data from one Home Assistant LXC to another
 # run from the Proxmox Shell
-# bash -c "$(wget -qLO - https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/copy-data/home-assistant-container-copy-data-home-assistant-container.sh)"
+# bash -c "$(wget -qLO - https://raw.githubusercontent.com/community-scripts/ProxmoxVE/nodejs_22/misc/copy-data/home-assistant-container-copy-data-home-assistant-container.sh)"

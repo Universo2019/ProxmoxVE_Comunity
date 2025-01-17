@@ -3,7 +3,7 @@
 # Copyright (c) 2021-2025 tteck
 # Author: tteck (tteckster)
 # License: MIT
-# https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
+# https://github.com/community-scripts/ProxmoxVE/raw/nodejs_22/LICENSE
 
 source /dev/stdin <<< "$FUNCTIONS_FILE_PATH"
 color
@@ -31,7 +31,7 @@ msg_ok "Installed Node.js"
 msg_info "Installing FlowiseAI (Patience)"
 $STD npm install -g flowise
 mkdir -p /opt/flowiseai
-wget -q https://raw.githubusercontent.com/FlowiseAI/Flowise/main/packages/server/.env.example -O /opt/flowiseai/.env
+wget -q https://raw.githubusercontent.com/FlowiseAI/Flowise/nodejs_22/packages/server/.env.example -O /opt/flowiseai/.env
 msg_ok "Installed FlowiseAI"
 
 msg_info "Creating Service"

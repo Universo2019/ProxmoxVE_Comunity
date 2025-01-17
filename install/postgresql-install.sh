@@ -3,7 +3,7 @@
 # Copyright (c) 2021-2025 tteck
 # Author: tteck (tteckster)
 # License: MIT
-# https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
+# https://github.com/community-scripts/ProxmoxVE/raw/nodejs_22/LICENSE
 
 source /dev/stdin <<< "$FUNCTIONS_FILE_PATH"
 color
@@ -30,7 +30,7 @@ msg_info "Installing PostgreSQL"
 $STD apt-get update
 $STD apt-get install -y postgresql
 
-cat <<EOF >/etc/postgresql/17/main/pg_hba.conf
+cat <<EOF >/etc/postgresql/17/nodejs_22/pg_hba.conf
 # PostgreSQL Client Authentication Configuration File
 local   all             postgres                                peer
 # TYPE  DATABASE        USER            ADDRESS                 METHOD
@@ -49,7 +49,7 @@ host    replication     all             127.0.0.1/32            scram-sha-256
 host    replication     all             ::1/128                 scram-sha-256
 EOF
 
-cat <<EOF >/etc/postgresql/17/main/postgresql.conf
+cat <<EOF >/etc/postgresql/17/nodejs_22/postgresql.conf
 # -----------------------------
 # PostgreSQL configuration file
 # -----------------------------
@@ -59,8 +59,8 @@ cat <<EOF >/etc/postgresql/17/main/postgresql.conf
 #------------------------------------------------------------------------------
 
 data_directory = '/var/lib/postgresql/17/main'       
-hba_file = '/etc/postgresql/17/main/pg_hba.conf'     
-ident_file = '/etc/postgresql/17/main/pg_ident.conf'   
+hba_file = '/etc/postgresql/17/nodejs_22/pg_hba.conf'     
+ident_file = '/etc/postgresql/17/nodejs_22/pg_ident.conf'   
 external_pid_file = '/var/run/postgresql/17-main.pid'                   
 
 #------------------------------------------------------------------------------

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-source <(curl -s https://raw.githubusercontent.com/community-scripts/ProxmoxVE/main/misc/build.func)
+source <(curl -s https://raw.githubusercontent.com/community-scripts/ProxmoxVE/nodejs_22/misc/build.func)
 # Copyright (c) 2021-2025 tteck
 # Author: tteck (tteckster)
-# License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
+# License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/nodejs_22/LICENSE
 # Source: https://github.com/leiweibau/Pi.Alert/
 
 # App Default Values
@@ -32,7 +32,7 @@ function update_script() {
         msg_error "No ${APP} Installation Found!"
         exit
     fi
-    bash -c "$(wget -qLO - https://github.com/leiweibau/Pi.Alert/raw/main/install/pialert_update.sh)" -s --lxc
+    bash -c "$(wget -qLO - https://github.com/leiweibau/Pi.Alert/raw/nodejs_22/install/pialert_update.sh)" -s --lxc
     msg_ok "Updated $APP"
     exit
 }

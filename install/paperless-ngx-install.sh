@@ -3,7 +3,7 @@
 # Copyright (c) 2021-2025 tteck
 # Author: tteck (tteckster)
 # License: MIT
-# https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
+# https://github.com/community-scripts/ProxmoxVE/raw/nodejs_22/LICENSE
 
 source /dev/stdin <<<"$FUNCTIONS_FILE_PATH"
 color
@@ -90,7 +90,7 @@ rm paperless-ngx-$Paperlessngx.tar.xz
 cd /opt/paperless
 $STD pip install --upgrade pip
 $STD pip install -r requirements.txt
-curl -s -o /opt/paperless/paperless.conf https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/main/paperless.conf.example
+curl -s -o /opt/paperless/paperless.conf https://raw.githubusercontent.com/paperless-ngx/paperless-ngx/nodejs_22/paperless.conf.example
 mkdir -p {consume,data,media,static}
 sed -i -e 's|#PAPERLESS_REDIS=redis://localhost:6379|PAPERLESS_REDIS=redis://localhost:6379|' /opt/paperless/paperless.conf
 sed -i -e "s|#PAPERLESS_CONSUMPTION_DIR=../consume|PAPERLESS_CONSUMPTION_DIR=/opt/paperless/consume|" /opt/paperless/paperless.conf
@@ -146,7 +146,7 @@ if [[ "${prompt,,}" =~ ^(y|yes)$ ]]; then
 fi
 
 msg_info "Setting up admin Paperless-ngx User & Password"
-## From https://github.com/linuxserver/docker-paperless-ngx/blob/main/root/etc/cont-init.d/99-migrations
+## From https://github.com/linuxserver/docker-paperless-ngx/blob/nodejs_22/root/etc/cont-init.d/99-migrations
 cat <<EOF | python3 /opt/paperless/src/manage.py shell
 from django.contrib.auth import get_user_model
 UserModel = get_user_model()
