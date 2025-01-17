@@ -36,9 +36,9 @@ function update_script() {
     systemctl stop actualbudget.service
     msg_ok "Stopped Service"
 
-    msg_info "Updating NodeJS"
+    
     if [[ "$(node -v | cut -d 'v' -f 2)" != "22."* ]]; then
-        echo "NodeJS is not up to date"
+        msg_info "Updating NodeJS"
         rm /etc/apt/sources.list.d/nodesource.list
         mkdir -p /etc/apt/keyrings
         curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
@@ -67,9 +67,7 @@ function update_script() {
                 npm install --global yarn &>/dev/null
             fi
         fi
-
-    else
-      echo "NodeJS is already up to date"
+        msg_ok "NodeJS is already up to date"
     fi
 
     msg_info "Updating ${APP}"
