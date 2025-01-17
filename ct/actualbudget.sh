@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
-source <(curl -s https://raw.githubusercontent.com/community-scripts/ProxmoxVE/nodejs_22/misc/build.func)
-# Copyright (c) 2021-2025 tteck
+source <(curl -s https://raw.githubusercontent.com/michelroegl-brunner/ProxmoxVE/refs/heads/DEV/misc/build.func)
+# Copyright (c) 2021-2024 tteck
 # Author: tteck (tteckster)
-# License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/nodejs_22/LICENSE
+# License: MIT | https://github.com/community-scripts/ProxmoxVE/raw/main/LICENSE
 # Source: https://actualbudget.org/
 
 # App Default Values
@@ -32,29 +32,52 @@ function update_script() {
         msg_error "No ${APP} Installation Found!"
         exit
     fi
-    if ! command -v jq >/dev/null 2>&1; then
-      echo "Installing jq..."
-      apt-get install -y jq >/dev/null 2>&1
-      echo "Installed jq..."
+    msg_info "Stopping Service"
+    systemctl stop actualbudget.service
+    msg_ok "Stopped Service"
+
+    msg_info "Updating NodeJS"
+    if [[ "$(node -v | cut -d 'v' -f 2)" != "22."* ]]; then
+        echo "NodeJS is not up to date"
+        rm /etc/apt/sources.list.d/nodesource.list
+        mkdir -p /etc/apt/keyrings
+        curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+        echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_22.x nodistro main" >/etc/apt/sources.list.d/nodesource.list
+
+        apt-get update &>/dev/null
+        apt-get install -y nodejs &>/dev/null
+        
+        if command -v npm >/dev/null 2>&1; then
+            if [[ "$(npm -v)" != "11."* ]]; then
+                echi "Updating npm"
+                npm install -g npm@latest &>/dev/null
+            fi
+        fi
+
+        if command -v pnpm >/dev/null 2>&1; then
+            echi "Updating pnpm"
+            if [[ "$(pnpm -v)" != "10."* ]]; then
+                npm install --global pnpm &>/dev/null
+            fi
+        fi
+
+        if command -v yarn >/dev/null 2>&1; then
+            echi "Updating yarn"
+            if [[ "$(yarn -v)" != "1.22"* ]]; then
+                npm install --global yarn &>/dev/null
+            fi
+        fi
+
+    else
+      echo "NodeJS is already up to date"
     fi
 
     msg_info "Updating ${APP}"
-    systemctl stop actualbudget
-    RELEASE=$(curl -s https://api.github.com/repos/actualbudget/actual-server/tags | jq --raw-output '.[0].name')
-    TEMPD="$(mktemp -d)"
-    cd "${TEMPD}"
-    wget -q https://codeload.github.com/actualbudget/actual-server/legacy.tar.gz/refs/tags/${RELEASE} -O - | tar -xz
-    mv /opt/actualbudget /opt/actualbudget_bak
-    mkdir -p /opt/actualbudget/
-    mv actualbudget-actual-server-*/* /opt/actualbudget/
-    mv /opt/actualbudget_bak/.env /opt/actualbudget
-    mv /opt/actualbudget_bak/server-files /opt/actualbudget/server-files
     cd /opt/actualbudget
+    git pull &>/dev/null
     yarn install &>/dev/null
-    systemctl start actualbudget
-    msg_ok "Successfully Updated ${APP} to ${RELEASE}"
-    rm -rf "${TEMPD}"
-    rm -rf /opt/actualbudget_bak
+    systemctl start actualbudget.service
+    msg_ok "Successfully Updated ${APP}"
     exit
 }
 
