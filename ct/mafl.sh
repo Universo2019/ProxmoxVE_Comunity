@@ -32,6 +32,39 @@ function update_script() {
     msg_error "No ${APP} Installation Found!"
     exit
   fi
+   if [[ "$(node -v | cut -d 'v' -f 2)" != "22."* ]]; then
+        msg_info "Updating NodeJS"
+        rm -f /etc/apt/sources.list.d/nodesource.list || true
+        rm -f /etc/apt/keyrings/nodesource.gpg || true
+        mkdir -p /etc/apt/keyrings
+        curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg
+        echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_22.x nodistro main" >/etc/apt/sources.list.d/nodesource.list
+
+        apt-get update &>/dev/null
+        apt-get install -y nodejs &>/dev/null
+        msg_info "Updated NodeJS"
+    fi
+
+    if command -v npm >/dev/null 2>&1; then
+        if [[ "$(npm -v)" != "11."* ]]; then
+            echo "Updating npm"
+            npm install -g npm@latest &>/dev/null
+        fi
+    fi
+    if command -v pnpm >/dev/null 2>&1; then
+        echo "Updating pnpm"
+        if [[ "$(pnpm -v)" != "10."* ]]; then
+            npm install --global pnpm &>/dev/null
+        fi
+    fi
+    if command -v yarn >/dev/null 2>&1; then
+        echo "Updating yarn"
+        if [[ "$(yarn -v)" != "1.22"* ]]; then
+            npm install --global yarn &>/dev/null
+        fi
+    fi
+
+
   RELEASE=$(curl -s https://api.github.com/repos/hywax/mafl/releases/latest | grep "tag_name" | awk '{print substr($2, 3, length($2)-4) }')
   msg_info "Updating Mafl to v${RELEASE} (Patience)"
   systemctl stop mafl
